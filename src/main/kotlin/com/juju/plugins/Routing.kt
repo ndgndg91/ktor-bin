@@ -40,7 +40,7 @@ fun Application.configureRouting() {
 
         post("/apis/authentication") {
             val request = call.receive<AuthenticateRequest>()
-            log.info("{}", request)
+            log.info("$request")
             val userName = request.username
             val accessToken = generateAccessToken(userName)
             val refreshToken = generateRefreshToken(userName)
