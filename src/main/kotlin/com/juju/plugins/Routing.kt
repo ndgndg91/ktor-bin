@@ -13,6 +13,8 @@ import io.ktor.features.*
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.request.*
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.transactions.transactionScope
 import java.util.*
 
 fun Application.configureRouting() {
@@ -42,6 +44,9 @@ fun Application.configureRouting() {
             val request = call.receive<AuthenticateRequest>()
             log.info("$request")
             val userName = request.username
+            transaction {
+
+            }
             val accessToken = generateAccessToken(userName)
             val refreshToken = generateRefreshToken(userName)
             call.response.cookies.append("juju-auth", refreshToken, httpOnly = true, domain = domain)

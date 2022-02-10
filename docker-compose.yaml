@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres:13.4
+    environment:
+      POSTGRES_USER: giri
+      POSTGRES_PASSWORD: giri
+      TZ: Asia/Seoul
+    ports:
+      - "5432:5432"
+    volumes:
+      - "~/docker-volumes/postgresql/juju:/var/lib/postgresql/data"
+      - "./init.sql:/docker-entrypoint-initdb.d/create_tables.sql"

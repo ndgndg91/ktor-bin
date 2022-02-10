@@ -1,7 +1,7 @@
 package com.juju
 
-import io.ktor.application.*
 import com.juju.plugins.*
+import io.ktor.application.*
 
 fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)
@@ -13,4 +13,6 @@ fun Application.module() {
     configureHTTP()
     configureMonitoring()
     configureSerialization()
+    DatabaseFactory.init()
 }
+
