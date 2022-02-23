@@ -3,6 +3,8 @@ val kotlinVersion: String by project
 val logbackVersion: String by project
 val exposedVersion: String by project
 val pgjdbcNgVersion: String by project
+val hikariCPVersion: String by project
+val kodeinVersion: String by project
 
 plugins {
     application
@@ -31,6 +33,8 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("com.impossibl.pgjdbc-ng:pgjdbc-ng:$pgjdbcNgVersion")
+    implementation("com.zaxxer:HikariCP:$hikariCPVersion")
+    implementation("org.kodein.di:kodein-di-generic-jvm:$kodeinVersion")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }

@@ -1,6 +1,8 @@
 package com.juju.plugins
 
 import com.typesafe.config.ConfigFactory
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import io.ktor.config.*
 import org.jetbrains.exposed.sql.Database
 
@@ -12,7 +14,16 @@ object DatabaseFactory {
     private val dbPassword = appConfig.property("db.dbPassword").getString()
 
     fun init() {
-        Database.connect(dbUrl, driver = dbDriver, user = dbUser, password = dbPassword)
+        val config = HikariConfig().apply {
+            jdbcUrl         = dbUrl
+            driverClassName = dbDriver
+            username        = dbUser
+            password        = dbPassword
+            maximumPoolSize = 10
+        }
+
+        val dataSource = HikariDataSource(config)
+        Database.connect(dataSource)
     }
 
 }
