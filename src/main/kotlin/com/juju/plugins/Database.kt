@@ -1,29 +1,25 @@
 package com.juju.plugins
 
-import com.typesafe.config.ConfigFactory
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import io.ktor.config.*
+import io.ktor.application.*
 import org.jetbrains.exposed.sql.Database
 
-object DatabaseFactory {
-    private val appConfig = HoconApplicationConfig(ConfigFactory.load())
-    private val dbUrl = appConfig.property("db.jdbcUrl").getString()
-    private val dbDriver = appConfig.property("db.dbDriver").getString()
-    private val dbUser = appConfig.property("db.dbUser").getString()
-    private val dbPassword = appConfig.property("db.dbPassword").getString()
+fun Application.database() {
+    val dbUrl = environment.config.property("db.jdbcUrl").getString()
+    val dbDriver = environment.config.property("db.dbDriver").getString()
+    val dbUser = environment.config.property("db.dbUser").getString()
+    val dbPassword = environment.config.property("db.dbPassword").getString()
 
-    fun init() {
-        val config = HikariConfig().apply {
-            jdbcUrl         = dbUrl
-            driverClassName = dbDriver
-            username        = dbUser
-            password        = dbPassword
-            maximumPoolSize = 10
-        }
 
-        val dataSource = HikariDataSource(config)
-        Database.connect(dataSource)
+    val config = HikariConfig().apply {
+        jdbcUrl = dbUrl
+        driverClassName = dbDriver
+        username = dbUser
+        password = dbPassword
+        maximumPoolSize = 10
     }
 
+    val dataSource = HikariDataSource(config)
+    Database.connect(dataSource)
 }
